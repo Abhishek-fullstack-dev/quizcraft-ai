@@ -18,47 +18,34 @@
 
 ## 📸 Screenshots
 
-### Sign In & Register
 <table>
   <tr>
-    <td><img src="screenshots/login.png" alt="Login Page" width="100%"/></td>
-    <td><img src="screenshots/register.png" alt="Register Page" width="100%"/></td>
+    <td><img src="login.png" alt="Login" width="100%"/></td>
+    <td><img src="register.png" alt="Register" width="100%"/></td>
   </tr>
   <tr>
     <td align="center"><b>Login Page</b></td>
     <td align="center"><b>Register Page</b></td>
   </tr>
-</table>
-
-### Dashboard & Quiz Generation
-<table>
   <tr>
-    <td><img src="screenshots/dashboard.png" alt="Dashboard" width="100%"/></td>
-    <td><img src="screenshots/generate.png" alt="Generate Quiz" width="100%"/></td>
+    <td><img src="dashboard.png" alt="Dashboard" width="100%"/></td>
+    <td><img src="generate.png" alt="Generate Quiz" width="100%"/></td>
   </tr>
   <tr>
     <td align="center"><b>User Dashboard</b></td>
     <td align="center"><b>AI Quiz Generator</b></td>
   </tr>
-</table>
-
-### Quiz Experience & Results
-<table>
   <tr>
-    <td><img src="screenshots/quiz.png" alt="Quiz in Progress" width="100%"/></td>
-    <td><img src="screenshots/results.png" alt="Quiz Results" width="100%"/></td>
+    <td><img src="quiz.png" alt="Quiz" width="100%"/></td>
+    <td><img src="results.png" alt="Results" width="100%"/></td>
   </tr>
   <tr>
     <td align="center"><b>Quiz in Progress</b></td>
     <td align="center"><b>Results Breakdown</b></td>
   </tr>
-</table>
-
-### Leaderboard & Analytics
-<table>
   <tr>
-    <td><img src="screenshots/leaderboard.png" alt="Leaderboard" width="100%"/></td>
-    <td><img src="screenshots/analytics.png" alt="Analytics" width="100%"/></td>
+    <td><img src="leaderboard.png" alt="Leaderboard" width="100%"/></td>
+    <td><img src="analytics.png" alt="Analytics" width="100%"/></td>
   </tr>
   <tr>
     <td align="center"><b>Global Leaderboard</b></td>
@@ -74,7 +61,7 @@
 - 🔐 **JWT Authentication** — Stateless auth with RBAC and BCrypt password hashing
 - 📊 **Personal Dashboard** — Quiz history, best scores, and topic tracking per user
 - 🏆 **Global Leaderboard** — Real-time ranking across all users
-- ⚡ **Token Optimization** — Structured JSON prompting reduces OpenAI token usage by ~30% and eliminates parsing errors
+- ⚡ **Token Optimization** — Structured JSON prompting reduces OpenAI token usage by ~30%
 - 🌐 **Production Ready** — HTTPS with auto-renewing SSL, 99%+ uptime since launch
 
 ---
@@ -85,7 +72,7 @@
 React Frontend (Vercel)
         │
         ▼  HTTPS (443)
-   Nginx Reverse Proxy  ◄── SSL via Let's Encrypt (Certbot)
+   Nginx Reverse Proxy  ◄── SSL via Let's Encrypt
         │
         ▼  Internal (8080)
 Spring Boot Backend (Docker · AWS EC2)
@@ -103,29 +90,13 @@ PostgreSQL      OpenAI API
 | Layer | Technology |
 |---|---|
 | **Backend** | Java 17, Spring Boot, Spring MVC, Spring Security |
-| **AI** | OpenAI API, Structured JSON Prompt Engineering, Token Optimization |
+| **AI** | OpenAI API, Structured JSON Prompt Engineering |
 | **Auth** | JWT (Stateless), RBAC, BCrypt |
-| **Database** | PostgreSQL on AWS RDS, Spring Data JPA, Hibernate |
+| **Database** | PostgreSQL · AWS RDS · Spring Data JPA · Hibernate |
 | **Cloud** | AWS EC2, AWS RDS, AWS S3 |
-| **DevOps** | Docker, Nginx (Reverse Proxy), Let's Encrypt SSL, GitHub Actions |
-| **Frontend** | React.js, deployed on Vercel |
+| **DevOps** | Docker, Nginx, Let's Encrypt SSL, GitHub Actions |
+| **Frontend** | React.js (Vercel) |
 | **API Docs** | Swagger / OpenAPI |
-
----
-
-## 🔑 Key Engineering Decisions
-
-### Structured JSON Prompting
-Rather than accepting free-form AI responses, I engineered a strict JSON output schema enforced at the prompt level. This eliminates response parsing errors entirely and reduces OpenAI token consumption by ~30% compared to unstructured prompts.
-
-### JWT Stateless Authentication
-All endpoints are secured with stateless JWT tokens — no server-side session storage needed. RBAC controls access to quiz creation, history, and admin routes across all user roles.
-
-### Docker + Nginx on EC2
-The backend is fully containerized with Docker and served behind Nginx as a reverse proxy. This enables zero-downtime container restarts and clean HTTPS termination at the proxy layer.
-
-### Separated Compute + Storage
-PostgreSQL runs on AWS RDS (separate from the EC2 instance), decoupling compute from storage for better reliability, independent scaling, and automated backups.
 
 ---
 
@@ -134,77 +105,42 @@ PostgreSQL runs on AWS RDS (separate from the EC2 instance), decoupling compute 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
 | `POST` | `/api/auth/register` | ❌ | Register new user |
-| `POST` | `/api/auth/login` | ❌ | Login and receive JWT |
-| `POST` | `/api/quiz/generate` | ✅ | Generate AI quiz by topic |
-| `GET` | `/api/quiz/history` | ✅ | Get user's quiz history |
-| `POST` | `/api/quiz/{id}/submit` | ✅ | Submit quiz answers |
-| `GET` | `/api/leaderboard` | ✅ | Get global leaderboard |
-| `GET` | `/api/analytics/me` | ✅ | Get personal analytics |
-
-> Full interactive docs available at `/swagger-ui.html`
+| `POST` | `/api/auth/login` | ❌ | Login, receive JWT |
+| `POST` | `/api/quiz/generate` | ✅ | Generate AI quiz |
+| `GET` | `/api/quiz/history` | ✅ | Get quiz history |
+| `POST` | `/api/quiz/{id}/submit` | ✅ | Submit answers |
+| `GET` | `/api/leaderboard` | ✅ | Global leaderboard |
+| `GET` | `/api/analytics/me` | ✅ | Personal analytics |
 
 ---
 
 ## ⚙️ Local Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/Abhishek-fullstack-dev/quizcraft-ai.git
-cd quizcraft-ai
-```
-
-### Backend
-```bash
-cd quizcraft-backend
+cd quizcraft-ai/quizcraft-backend
 ./mvnw spring-boot:run
 ```
 
-### Frontend
-```bash
-cd quizcraft-frontend
-npm install
-npm start
-```
-
-### Environment Variables
 ```env
-OPENAI_API_KEY=your_openai_api_key
+OPENAI_API_KEY=your_key
 SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/quizcraft
-SPRING_DATASOURCE_USERNAME=your_db_user
-SPRING_DATASOURCE_PASSWORD=your_db_password
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRATION=86400000
+SPRING_DATASOURCE_USERNAME=your_user
+SPRING_DATASOURCE_PASSWORD=your_password
+JWT_SECRET=your_secret
 ```
 
 ---
 
 ## ☁️ Production Deployment
 
-| Component | Setup |
+| Component | Details |
 |---|---|
-| **EC2** | t2.micro Ubuntu, running Dockerized Spring Boot |
-| **RDS** | PostgreSQL db.t3.micro, isolated in VPC |
-| **Nginx** | Reverse proxy: port 443 → port 8080 |
-| **SSL** | Let's Encrypt certificate with Certbot auto-renewal |
+| **EC2** | t2.micro Ubuntu · Dockerized Spring Boot |
+| **RDS** | PostgreSQL db.t3.micro · isolated in VPC |
+| **Nginx** | Reverse proxy port 443 → 8080 |
+| **SSL** | Let's Encrypt · Certbot auto-renewal |
 | **Uptime** | 99%+ since January 2026 |
-
----
-
-## 📁 Project Structure
-
-```
-quizcraft-backend/
-├── src/main/java/com/quizcraft/backend/
-│   ├── config/          # Security, JWT, CORS config
-│   ├── controller/      # REST API controllers
-│   ├── dto/             # Request/Response DTOs
-│   ├── entity/          # JPA entities
-│   ├── repository/      # Spring Data JPA repositories
-│   ├── security/        # JWT filter, auth provider
-│   └── service/         # Business logic + OpenAI integration
-└── src/main/resources/
-    └── application.properties
-```
 
 ---
 
@@ -214,10 +150,8 @@ quizcraft-backend/
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat&logo=linkedin)](https://linkedin.com/in/abhishek-kumar-380446233)
 [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-00C853?style=flat&logo=vercel)](https://abhishekkumar-dev.vercel.app)
-[![Live App](https://img.shields.io/badge/QuizCraft-Live-FF4444?style=flat)](https://quizcraft.live)
+[![Live](https://img.shields.io/badge/QuizCraft-Live-FF4444?style=flat)](https://quizcraft.live)
 
 ---
 
-<div align="center">
-  <i>Built and deployed independently — from zero to production on AWS.</i>
-</div>
+<div align="center"><i>Built and deployed independently — from zero to production on AWS.</i></div>
