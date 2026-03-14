@@ -155,4 +155,3 @@ JWT_SECRET=your_secret
 ---
 
 <div align="center"><i>Built and deployed independently — from zero to production on AWS.</i></div>
-### this Project is finally complete if you want to use it please go ahead and try to use it how every you what have fun
